@@ -7,8 +7,8 @@ const bodyParser = require('body-parser')
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
-
-// parse application/json
+const geocode = require('./utlis/geocoding')
+    // parse application/json
 app.use(bodyParser.json())
 
 var data = ""
@@ -24,7 +24,7 @@ app.post('/sms', (req, res) => {
     var destinationAddress = req.body.destination;
 
 
-    console.log(destinationAddress, toNumber);
+    console.log(destinationAddress, number);
     geocode(destinationAddress, (erro, { longitute: longituteD, latitude: latitudeD } = {}) => {
         if (erro) {
             return res.send({
@@ -107,4 +107,3 @@ app.post('/sms', (req, res) => {
 
 http.createServer(app).listen(5000, () => {
     console.log('Express server listening on port 5000');
-});
